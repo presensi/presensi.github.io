@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
 
-        if (email === "test@example.com" && password === "password123") {
+        if (email === "admin@admin.com" && password === "admin") {
             alert('Login successful!');
         } else {
             alert('Invalid email or password.');
