@@ -21,9 +21,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const forgotPasswordForm = document.getElementById('forgot-password-form');
     const resetForm = document.getElementById('reset-form');
 
+    // Mengubah latar belakang navbar saat menggulir
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
     forgotPasswordLink.addEventListener('click', function(event) {
         event.preventDefault();
-        loginForm.classList.toggle('hidden');
         forgotPasswordForm.classList.toggle('hidden');
     });
 
@@ -45,3 +54,16 @@ document.addEventListener('DOMContentLoaded', function() {
         alert(`Password reset link sent to ${resetEmail}`);
     });
 });
+
+function redirectToDashboard() {
+    // Lakukan validasi login di sini (jika ada)
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    if (email === "admin@admin.com" && password === "admin") {
+        alert('Login successful!');
+        window.location.href = 'dashboard.html';
+    } else {
+        alert('Invalid email or password.');
+    }
+}
