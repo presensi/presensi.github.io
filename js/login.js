@@ -62,7 +62,7 @@ function redirectToDashboard() {
 
     if (email === "admin@admin.com" && password === "admin") {
         alert('Login successful!');
-        window.location.href = 'dashboard_admin.html';
+        window.location.href = 'dashboard-admin.html';
     } else {
         alert('Invalid email or password.');
     }
