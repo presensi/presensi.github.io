@@ -12,7 +12,7 @@
         <h2 class="text-center text-xl font-bold mb-6">Admin Dashboard</h2>
         <ul>
             <li class="mb-4"><a href="dashboard-admin.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Home</a></li>
-            <li class="mb-4"><a href="dashboard-presensi.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Attendance</a></li>
+            <li class="mb-4"><a href="dashboard-presensi.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Kehadiran</a></li>
             <li class="mb-4"><a href="#reports" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Reports</a></li>
             <li class="mb-4"><a href="dashboard-setting.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Settings</a></li>
             <li class="mb-4"><a href="login.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Logout</a></li>
@@ -31,14 +31,14 @@
         </div>
 
         <div id="attendance" class="bg-white p-6 rounded shadow mb-6">
-            <h3 class="text-xl font-semibold mb-4">Attendance Records</h3>
+            <h3 class="text-xl font-semibold mb-4">Catatan Kehadiran</h3>
             <table class="min-w-full bg-white border">
                 <thead>
                     <tr>
-                        <th class="py-2 px-4 border">Date</th>
-                        <th class="py-2 px-4 border">Name</th>
+                        <th class="py-2 px-4 border">Tanggal</th>
+                        <th class="py-2 px-4 border">Nama</th>
                         <th class="py-2 px-4 border">Status</th>
-                        <th class="py-2 px-4 border">Actions</th>
+                        <th class="py-2 px-4 border">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,11 +46,11 @@
                 </tbody>
             </table>
             <form id="attendance-form" class="mt-6">
-                <h3 class="text-xl font-semibold mb-4">Add New Attendance</h3>
-                <label for="date" class="block mb-2">Date:</label>
+                <h3 class="text-xl font-semibold mb-4">Tambahkan Kehadiran Baru</h3>
+                <label for="date" class="block mb-2">Tanggal:</label>
                 <input type="date" id="date" name="date" class="w-full mb-4 p-2 border rounded">
 
-                <label for="name" class="block mb-2">Name:</label>
+                <label for="name" class="block mb-2">Nama:</label>
                 <input type="text" id="name" name="name" class="w-full mb-4 p-2 border rounded">
 
                 <label for="status" class="block mb-2">Status:</label>
