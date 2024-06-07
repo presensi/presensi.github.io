@@ -12,9 +12,9 @@
         <h2 class="text-center text-xl font-bold mb-6">Admin Dashboard</h2>
         <ul>
             <li class="mb-4"><a href="#home" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Home</a></li>
-            <li class="mb-4"><a href="#attendance" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Attendance</a></li>
+            <li class="mb-4"><a href="dashboard-presensi.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Attendance</a></li>
             <li class="mb-4"><a href="#reports" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Reports</a></li>
-            <li class="mb-4"><a href="#settings" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Settings</a></li>
+            <li class="mb-4"><a href="dashboard-setting.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Settings</a></li>
             <li class="mb-4"><a href="login.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Logout</a></li>
         </ul>
     </div>
@@ -30,51 +30,12 @@
             <!-- Add overview widgets here -->
         </div>
 
-        <div id="attendance" class="bg-white p-6 rounded shadow mb-6">
-            <h3 class="text-xl font-semibold mb-4">Attendance Records</h3>
-            <table class="min-w-full bg-white border">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border">Date</th>
-                        <th class="py-2 px-4 border">Name</th>
-                        <th class="py-2 px-4 border">Status</th>
-                        <th class="py-2 px-4 border">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Add dynamic attendance data here -->
-                </tbody>
-            </table>
-            <form id="attendance-form" class="mt-6">
-                <h3 class="text-xl font-semibold mb-4">Add New Attendance</h3>
-                <label for="date" class="block mb-2">Date:</label>
-                <input type="date" id="date" name="date" class="w-full mb-4 p-2 border rounded">
-
-                <label for="name" class="block mb-2">Name:</label>
-                <input type="text" id="name" name="name" class="w-full mb-4 p-2 border rounded">
-
-                <label for="status" class="block mb-2">Status:</label>
-                <select id="status" name="status" class="w-full mb-4 p-2 border rounded">
-                    <option value="present">Present</option>
-                    <option value="absent">Absent</option>
-                    <option value="late">Late</option>
-                </select>
-
-                <button type="submit" class="py-2 px-4 bg-blue-900 text-white rounded hover:bg-blue-600">Add Record</button>
-            </form>
-        </div>
-
         <div id="reports" class="bg-white p-6 rounded shadow mb-6">
             <h3 class="text-xl font-semibold mb-4">Reports</h3>
             <p>Attendance reports and analytics...</p>
             <!-- Add report generation tools and graphs here -->
         </div>
 
-        <div id="settings" class="bg-white p-6 rounded shadow mb-6">
-            <h3 class="text-xl font-semibold mb-4">Settings</h3>
-            <p>Admin settings...</p>
-            <!-- Add settings form here -->
-        </div>
     </div>
 
     <script src="dashboard-admin.js"></script>
