@@ -1,8 +1,19 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    scroll-behavior: smooth;
+    background-color: #0284c7;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+button:hover {
+    background-color: #4c51bf;
+}
+
+.hidden {
+    display: none;
 }
 
 .navbar {
@@ -47,46 +58,6 @@ body {
 
 .nav-links a:hover {
     color: #2980b9;
-}
-
-.hero {
-    background: linear-gradient(120deg, #2980b9, #8e44ad);
-    color: white;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding-top: 60px;
-}
-
-.hero-content {
-    max-width: 600px;
-}
-
-.hero h1 {
-    font-size: 3em;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 1.2em;
-    margin-bottom: 30px;
-}
-
-.hero button {
-    background: #2980b9;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    color: white;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-    font-size: 1em;
-}
-
-.hero button:hover {
-    background: #8e44ad;
 }
 
 /* Biar Footer Nempel Di Bawah */
