@@ -13,9 +13,7 @@
         <ul>
             <li class="mb-4"><a href="dashboard-admin.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Beranda</a></li>
             <li class="mb-4"><a href="dashboard-presensi.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Kehadiran</a></li>
-            <li class="mb-4"><a href="#reports" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Laporan</a></li>
-            <li class="mb-4"><a href="dashboard-setting.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Pengaturan</a></li>
-            <li class="mb-4"><a href="index.html"block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Keluar</a></li>
+            <li class="mb-4"><a href="index.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Keluar</a></li>
         </ul>
     </div>
 
@@ -25,19 +23,19 @@
         </div>
         
         <div id="home" class="bg-white p-6 rounded shadow mb-6">
-            <h3 class="text-xl font-semibold mb-4">Dashboard Overview</h3>
-            <p>Rangkuman Kehadiran</p>
+            <h3 class="text-xl font-semibold mb-4">Rangkuman Kehadiran</h3>
             <table class="min-w-full bg-white border">
                 <thead>
                     <tr>
                         <th class="py-2 px-4 border">Tanggal</th>
                         <th class="py-2 px-4 border">Nama</th>
+                        <th class="py-2 px-4 border">Mata Pelajaran</th>
                         <th class="py-2 px-4 border">Status</th>
                         <th class="py-2 px-4 border">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Add dynamic attendance data here -->
+                <tbody id="summary-tbody">
+                    <!-- Summary rows will be dynamically added here -->
                 </tbody>
             </table>
         </div>
@@ -49,14 +47,16 @@
                     <tr>
                         <th class="py-2 px-4 border">Tanggal</th>
                         <th class="py-2 px-4 border">Nama</th>
+                        <th class="py-2 px-4 border">Mata Pelajaran</th>
                         <th class="py-2 px-4 border">Status</th>
                         <th class="py-2 px-4 border">Aksi</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <!-- Add dynamic attendance data here -->
+                <tbody id="attendance-tbody">
+                    <!-- Attendance rows will be dynamically added here -->
                 </tbody>
             </table>
+
             <form id="attendance-form" class="mt-6">
                 <h3 class="text-xl font-semibold mb-4">Tambahkan Kehadiran Baru</h3>
                 <label for="date" class="block mb-2">Tanggal:</label>
@@ -64,6 +64,15 @@
 
                 <label for="name" class="block mb-2">Nama:</label>
                 <input type="text" id="name" name="name" class="w-full mb-4 p-2 border rounded">
+
+                <label for="subject" class="block mb-2">Mata Pelajaran:</label>
+                <select id="subject" name="subject" class="w-full mb-4 p-2 border rounded">
+                    <option value="Matematika">Matematika</option>
+                    <option value="IPA">IPA</option>
+                    <option value="IPS">IPS</option>
+                    <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                    <option value="Bahasa Inggris">Bahasa Inggris</option>
+                </select>
 
                 <label for="status" class="block mb-2">Status:</label>
                 <select id="status" name="status" class="w-full mb-4 p-2 border rounded">
