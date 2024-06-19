@@ -1,67 +1,80 @@
-let siswaData = [];
-let editIndex = -1;
+document.addEventListener('DOMContentLoaded', () => {
+    const siswaForm = document.getElementById('siswaForm');
+    const siswaTbody = document.getElementById('siswaTbody');
+    let editingRow = null;
 
-document.getElementById('siswaForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    const nama = document.getElementById('nama').value;
-    const kelas = document.getElementById('kelas').value;
-    const umur = document.getElementById('umur').value;
+    siswaForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const nama = document.getElementById('nama').value;
+        const kelas = document.getElementById('kelas').value;
+        const umur = document.getElementById('umur').value;
 
-    if (editIndex === -1) {
-        siswaData.push({ nama, kelas, umur });
-    } else {
-        siswaData[editIndex] = { nama, kelas, umur };
-        editIndex = -1;
-        document.getElementById('updateBtn').style.display = 'none';
-        document.querySelector('button[type="submit"]').style.display = 'block';
+        if (nama && kelas && umur) {
+            if (editingRow) {
+                updateSiswaRecord(editingRow, nama, kelas, umur);
+                editingRow = null;
+            } else {
+                addSiswaRecord(nama, kelas, umur);
+            }
+            siswaForm.reset();
+        }
+    });
+
+    function addSiswaRecord(nama, kelas, umur) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${nama}</td>
+            <td>${kelas}</td>
+            <td>${umur}</td>
+            <td>
+                <button class="edit-btn btn btn-warning btn-sm">Edit</button>
+                <button class="delete-btn btn btn-danger btn-sm">Delete</button>
+            </td>
+        `;
+        row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
+        row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
+        siswaTbody.appendChild(row);
     }
 
-    document.getElementById('siswaForm').reset();
-    renderTable();
-});
+    function updateSiswaRecord(row, nama, kelas, umur) {
+        row.children[0].textContent = nama;
+        row.children[1].textContent = kelas;
+        row.children[2].textContent = umur;
+    }
 
-document.getElementById('updateBtn').addEventListener('click', function () {
-    const nama = document.getElementById('nama').value;
-    const kelas = document.getElementById('kelas').value;
-    const umur = document.getElementById('umur').value;
+    function editSiswaRecord(row) {
+        const nama = row.children[0].textContent;
+        const kelas = row.children[1].textContent;
+        const umur = row.children[2].textContent;
 
-    siswaData[editIndex] = { nama, kelas, umur };
-    editIndex = -1;
+        document.getElementById('nama').value = nama;
+        document.getElementById('kelas').value = kelas;
+        document.getElementById('umur').value = umur;
 
-    document.getElementById('updateBtn').style.display = 'none';
-    document.querySelector('button[type="submit"]').style.display = 'block';
-    document.getElementById('siswaForm').reset();
-    renderTable();
-});
+        editingRow = row;
+        document.getElementById('updateBtn').style.display = 'block';
+        document.querySelector('button[type="submit"]').style.display = 'none';
+    }
 
-function renderTable() {
-    const tbody = document.querySelector('#siswaTable tbody');
-    tbody.innerHTML = '';
-    siswaData.forEach((siswa, index) => {
-        const row = `<tr>
-            <td>${siswa.nama}</td>
-            <td>${siswa.kelas}</td>
-            <td>${siswa.umur}</td>
-            <td>
-                <button class="btn btn-warning btn-sm" onclick="editSiswa(${index})">Edit</button>
-                <button class="btn btn-danger btn-sm" onclick="deleteSiswa(${index})">Delete</button>
-            </td>
-        </tr>`;
-        tbody.innerHTML += row;
+    function deleteSiswaRecord(row) {
+        row.remove();
+    }
+
+    document.getElementById('updateBtn').addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const nama = document.getElementById('nama').value;
+        const kelas = document.getElementById('kelas').value;
+        const umur = document.getElementById('umur').value;
+
+        if (editingRow) {
+            updateSiswaRecord(editingRow, nama, kelas, umur);
+            editingRow = null;
+        }
+
+        document.getElementById('updateBtn').style.display = 'none';
+        document.querySelector('button[type="submit"]').style.display = 'block';
+        siswaForm.reset();
     });
-}
-
-function editSiswa(index) {
-    editIndex = index;
-    const siswa = siswaData[index];
-    document.getElementById('nama').value = siswa.nama;
-    document.getElementById('kelas').value = siswa.kelas;
-    document.getElementById('umur').value = siswa.umur;
-    document.getElementById('updateBtn').style.display = 'block';
-    document.querySelector('button[type="submit"]').style.display = 'none';
-}
-
-function deleteSiswa(index) {
-    siswaData.splice(index, 1);
-    renderTable();
-}
+});
