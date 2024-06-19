@@ -20,6 +20,20 @@ document.getElementById('siswaForm').addEventListener('submit', function (e) {
     renderTable();
 });
 
+document.getElementById('updateBtn').addEventListener('click', function () {
+    const nama = document.getElementById('nama').value;
+    const kelas = document.getElementById('kelas').value;
+    const umur = document.getElementById('umur').value;
+
+    siswaData[editIndex] = { nama, kelas, umur };
+    editIndex = -1;
+
+    document.getElementById('updateBtn').style.display = 'none';
+    document.querySelector('button[type="submit"]').style.display = 'block';
+    document.getElementById('siswaForm').reset();
+    renderTable();
+});
+
 function renderTable() {
     const tbody = document.querySelector('#siswaTable tbody');
     tbody.innerHTML = '';
