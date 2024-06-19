@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD Data Siswa</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">Data Siswa</h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form id="siswaForm">
+                <div class="form-group">
+                    <label for="nama">Nama:</label>
+                    <input type="text" class="form-control" id="nama" required>
+                </div>
+                <div class="form-group">
+                    <label for="kelas">Kelas:</label>
+                    <input type="text" class="form-control" id="kelas" required>
+                </div>
+                <div class="form-group">
+                    <label for="umur">Umur:</label>
+                    <input type="number" class="form-control" id="umur" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Tambah Siswa</button>
+                <button type="button" class="btn btn-secondary" id="updateBtn" style="display:none;">Update Siswa</button>
+            </form>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-striped" id="siswaTable">
+                <thead>
+                    <tr>
+                        <th>Nama</th>
+                        <th>Kelas</th>
+                        <th>Umur</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data siswa akan ditambahkan di sini -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="datamurid.js"></script>
+</body>
+</html>
