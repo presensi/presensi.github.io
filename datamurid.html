@@ -4,48 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Data Siswa</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div class="container mt-5">
-    <h2 class="text-center">Data Siswa</h2>
-    <div class="row">
-        <div class="col-md-6">
-            <form id="siswaForm">
-                <div class="form-group">
-                    <label for="nama">Nama:</label>
-                    <input type="text" class="form-control" id="nama" required>
-                </div>
-                <div class="form-group">
-                    <label for="kelas">Kelas:</label>
-                    <input type="text" class="form-control" id="kelas" required>
-                </div>
-                <div class="form-group">
-                    <label for="umur">Umur:</label>
-                    <input type="number" class="form-control" id="umur" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Tambah Siswa</button>
-                <button type="button" class="btn btn-secondary" id="updateBtn" style="display:none;">Update Siswa</button>
-            </form>
-        </div>
-        <div class="col-md-6">
-            <table class="table table-striped" id="siswaTable">
-                <thead>
-                    <tr>
-                        <th>Nama</th>
-                        <th>Kelas</th>
-                        <th>Umur</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="siswaTbody">
-                    <!-- Data siswa akan ditambahkan di sini -->
-                </tbody>
-            </table>
-        </div>
+<body class="flex ">
+    <!-- Navigation--Start-->
+    <div class="w-64 bg-blue-300 text-white min-h-screen p-6">
+        <h2 class="text-center text-xl font-bold mb-6">Admin Dashboard</h2>
+        <ul>
+            <li class="mb-4"><a href="dashboard-admin.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Beranda</a></li>
+            <li class="mb-4"><a href="dashboard-presensi.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Kehadiran</a></li>
+            <li class="mb-4"><a href="datamurid.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Data Murid</a></li>
+            <li class="mb-4"><a href="index.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Keluar</a></li>
+        </ul>
     </div>
-</div>
+    <!-- Navigation--End-->
+
+    <div class="flex-1 p-6 bg-blue-300">
+        <div class="bg-white p-6 rounded shadow mb-6">
+            <h2 class="text-2xl font-bold mb-4">Welcome</h2>
+        </div>
+        
+        <div id="home" class="bg-white p-6 rounded shadow mb-6">
+            <div class="col-md-6">
+                <form id="siswaForm">
+                    <div class="form-group">
+                        <label for="nama">Nama:</label>
+                        <input type="text" class="form-control" id="nama" required>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="kelas">Kelas:</label>
+                        <input type="text" class="form-control" id="kelas" required>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="umur">Umur:</label>
+                        <input type="number" class="form-control" id="umur" required>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Tambah Siswa</button>
+                    <button type="button" class="btn btn-secondary" id="updateBtn" style="display:none;">Update Siswa</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="reports" class="bg-white p-6 rounded shadow mb-6">
+            <div class="col-md-6">
+                <table class="table table-striped" id="siswaTable">
+                    <thead>
+                        <tr>
+                            <th>Nama</th>
+                            <th>Kelas</th>
+                            <th>Umur</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="siswaTbody">
+                        <!-- Data siswa akan ditambahkan di sini -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="js/datamurid.js"></script>
 </body>
