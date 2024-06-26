@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', function() {
     .then(response => response.json())
     .then(data => {
       if (data.success) {
-        alert('Daftar berhasil..!');
         document.getElementById('fullname').value = '';
         document.getElementById('email').value = '';
         document.getElementById('password').value = '';
