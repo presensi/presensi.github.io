@@ -31,3 +31,15 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         document.getElementById("error").style.display = "block";
     }
 });
+
+document.getElementById('showPassword').addEventListener('change', function() {
+    const passwordField = document.getElementById('password');
+    const confirmPasswordField = document.getElementById('confirm_password');
+    if (this.checked) {
+        passwordField.type = 'text';
+        confirmPasswordField.type = 'text';
+    } else {
+        passwordField.type = 'password';
+        confirmPasswordField.type = 'password';
+    }
+});
