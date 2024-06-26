@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('email').value = '';
         document.getElementById('password').value = '';
         document.getElementById('confirm_password').value = '';
+        window.location.href = 'https://presensi.github.io/login.html';
       } else {
         alert('Yahh... Daftar nya tidak berhasil nih kak :( ' + data.message);
       }
