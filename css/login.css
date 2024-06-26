@@ -80,7 +80,7 @@ input:valid ~ label {
     top: 20px;
 }
 
-.forget {
+.show-password {
     margin: 35px 0;
     font-size: 0.85rem;
     color: #fff;
@@ -88,22 +88,22 @@ input:valid ~ label {
     justify-content: space-between;
 }
 
-.forget label {
+.show-password label {
     display: flex;
     align-items: center;
 }
 
-.forget label input {
+.show-password label input {
     margin-right: 3px;
 }
 
-.forget a {
+.show-password a {
     color: #fff;
     text-decoration: none;
     font-weight: 600;
 }
 
-.forget a:hover {
+.show-password a:hover {
     text-decoration: underline;
 }
 
@@ -118,6 +118,7 @@ button {
     font-size: 1rem;
     font-weight: 600;
     transition: all 0.4s ease;
+    margin-top: 10px;
 }
 
 button:hover {
