@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Registration</title>
+    <title>Form Daftar</title>
     <link rel="stylesheet" href="/css/daftar.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -14,28 +14,33 @@
 <body>
     <section>
         <form>
-            <h1>Register Admin</h1>
+            <h1>Daftar User</h1>
             <div class="inputbox">
-            <input type="text" id="fullname" required />
-            <label for="fullname">Full Name</label>
+                <input type="text" id="fullname" required />
+                <label for="fullname">Full Name</label>
             </div>
             <div class="inputbox">
-            <ion-icon name="mail-outline"></ion-icon>
-            <input type="email" id="email" required />
-            <label for="email">Email</label>
+                <ion-icon name="mail-outline"></ion-icon>
+                <input type="email" id="email" required />
+                <label for="email">Email</label>
             </div>
             <div class="inputbox">
-            <ion-icon name="lock-closed-outline"></ion-icon>
-            <input type="password" id="password" required />
-            <label for="password">Password</label>
+                <ion-icon name="lock-closed-outline"></ion-icon>
+                <input type="password" id="password" required />
+                <label for="password">Password</label>
             </div>
             <div class="inputbox">
-            <input type="password" id="confirm_password" required />
-            <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" required />
+                <label for="confirm_password">Confirm Password</label>
             </div>
-            <button id="registerButton" type="submit" class="btn">Register</button>
+            <div class="show-password">
+                <input type="checkbox" id="showPassword" />
+                <label for="showPassword">Show Password</label>
+            </div>
+            <br>
+            <button id="registerButton" type="submit" class="btn">Daftar</button>
             <div class="register">
-            <p>Sudah Buat Akun?<a href="login.html"> Login</a></p>
+                <p>Sudah Buat Akun?<a href="login.html"> Login</a></p>
             </div>
         </form>
     </section>
@@ -51,5 +56,6 @@
     nomodule
     src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
+
 </body>
 </html>
