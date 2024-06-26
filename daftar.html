@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Registration</title>
+    <link rel="stylesheet" href="/css/daftar.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+</head>
+<body>
+    <section>
+        <form>
+            <h1>Register Admin</h1>
+            <div class="inputbox">
+            <input type="text" id="fullname" required />
+            <label for="fullname">Full Name</label>
+            </div>
+            <div class="inputbox">
+            <ion-icon name="mail-outline"></ion-icon>
+            <input type="email" id="email" required />
+            <label for="email">Email</label>
+            </div>
+            <div class="inputbox">
+            <ion-icon name="lock-closed-outline"></ion-icon>
+            <input type="password" id="password" required />
+            <label for="password">Password</label>
+            </div>
+            <div class="inputbox">
+            <input type="password" id="confirm_password" required />
+            <label for="confirm_password">Confirm Password</label>
+            </div>
+            <button id="registerButton" type="submit" class="btn">Register</button>
+            <div class="register">
+            <p>Sudah Buat Akun?<a href="login.html"> Login</a></p>
+            </div>
+        </form>
+    </section>
+
+    <script src="/js/daftar.js"></script>
+
+    <script
+    type="module"
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+
+    <script
+    nomodule
+    src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+</body>
+</html>
