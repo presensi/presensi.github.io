@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const siswaForm = document.getElementById('siswaForm');
     const siswaTbody = document.getElementById('siswaTbody');
+    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
     let editingRow = null;
 
     siswaForm.addEventListener('submit', (e) => {
@@ -11,36 +12,53 @@ document.addEventListener('DOMContentLoaded', () => {
         const umur = document.getElementById('umur').value;
 
         if (nama && kelas && umur) {
+            const siswa = { nama, kelas, umur: parseInt(umur) };
             if (editingRow) {
-                updateSiswaRecord(editingRow, nama, kelas, umur);
+                updateSiswaRecord(siswa);
                 editingRow = null;
             } else {
-                addSiswaRecord(nama, kelas, umur);
+                addSiswaRecord(siswa);
             }
             siswaForm.reset();
         }
     });
 
-    function addSiswaRecord(nama, kelas, umur) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${nama}</td>
-            <td>${kelas}</td>
-            <td>${umur}</td>
-            <td>
-                <button class="edit-btn btn btn-warning btn-sm">Edit</button>
-                <button class="delete-btn btn btn-danger btn-sm">Delete</button>
-            </td>
-        `;
-        row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
-        row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
-        siswaTbody.appendChild(row);
+    function addSiswaRecord(siswa) {
+        fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(siswa)
+        })
+        .then(response => response.json())
+        .then(data => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${siswa.nama}</td>
+                <td>${siswa.kelas}</td>
+                <td>${siswa.umur}</td>
+                <td>
+                    <button class="edit-btn btn btn-warning btn-sm">Edit</button>
+                    <button class="delete-btn btn btn-danger btn-sm">Delete</button>
+                </td>
+            `;
+            row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
+            row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
+            siswaTbody.appendChild(row);
+        });
     }
 
-    function updateSiswaRecord(row, nama, kelas, umur) {
-        row.children[0].textContent = nama;
-        row.children[1].textContent = kelas;
-        row.children[2].textContent = umur;
+    function updateSiswaRecord(siswa) {
+        fetch(API_URL, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(siswa)
+        })
+        .then(response => response.json())
+        .then(data => {
+            editingRow.children[0].textContent = siswa.nama;
+            editingRow.children[1].textContent = siswa.kelas;
+            editingRow.children[2].textContent = siswa.umur;
+        });
     }
 
     function editSiswaRecord(row) {
@@ -58,7 +76,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function deleteSiswaRecord(row) {
-        row.remove();
+        const nama = row.children[0].textContent;
+        fetch(API_URL, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama })
+        })
+        .then(response => response.json())
+        .then(data => row.remove());
     }
 
     document.getElementById('updateBtn').addEventListener('click', (e) => {
@@ -69,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const umur = document.getElementById('umur').value;
 
         if (editingRow) {
-            updateSiswaRecord(editingRow, nama, kelas, umur);
+            updateSiswaRecord({ nama, kelas, umur: parseInt(umur) });
             editingRow = null;
         }
 
@@ -77,4 +102,28 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('button[type="submit"]').style.display = 'block';
         siswaForm.reset();
     });
+
+    function fetchAllSiswa() {
+        fetch(API_URL)
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(siswa => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${siswa.nama}</td>
+                        <td>${siswa.kelas}</td>
+                        <td>${siswa.umur}</td>
+                        <td>
+                            <button class="edit-btn btn btn-warning btn-sm">Edit</button>
+                            <button class="delete-btn btn btn-danger btn-sm">Delete</button>
+                        </td>
+                    `;
+                    row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
+                    row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
+                    siswaTbody.appendChild(row);
+                });
+            });
+    }
+
+    fetchAllSiswa();
 });
