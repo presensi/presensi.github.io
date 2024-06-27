@@ -1,21 +1,23 @@
-// Add a scroll event listener to change the navbar background on scroll
-window.addEventListener('scroll', function() {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
 document.addEventListener('DOMContentLoaded', () => {
-    const attendanceForm = document.getElementById('attendance-form');
-    const attendanceTbody = document.getElementById('attendance-tbody');
+    const kehadiranForm = document.getElementById('kehadiran-form');
+    const kehadiranTbody = document.getElementById('kehadiran-tbody');
     const summaryTbody = document.getElementById('summary-tbody');
+    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
 
     let editingRow = null;
 
-    attendanceForm.addEventListener('submit', (e) => {
+    // Fetch kehadiran data dari backend dan untuk ditampilkan
+    fetch(API_URL)
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(record => {
+                addKehadiranRecord(record.date, record.name, record.subject, record.status);
+            });
+            updateSummary();
+        })
+        .catch(error => console.error('Error fetching kehadiran data:', error));
+
+    kehadiranForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
         const date = document.getElementById('date').value;
@@ -24,18 +26,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const status = document.getElementById('status').value;
 
         if (date && name && subject && status) {
+            const record = { date, name, subject, status };
+
             if (editingRow) {
-                updateAttendanceRecord(editingRow, date, name, subject, status);
+                updateKehadiranRecord(editingRow, record);
                 editingRow = null;
             } else {
-                addAttendanceRecord(date, name, subject, status);
+                addKehadiranRecord(date, name, subject, status);
             }
+
+            // Send the new record to the backend
+            fetch(API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(record)
+            }).catch(error => console.error('Error sending kehadiran data:', error));
+
             updateSummary();
-            attendanceForm.reset();
+            kehadiranForm.reset();
         }
     });
 
-    function addAttendanceRecord(date, name, subject, status) {
+    function addKehadiranRecord(date, name, subject, status) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td class="py-2 px-4 border">${date}</td>
@@ -47,19 +61,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button class="delete-btn py-1 px-3 bg-red-500 text-white rounded">Delete</button>
             </td>
         `;
-        row.querySelector('.edit-btn').addEventListener('click', () => editAttendanceRecord(row));
-        row.querySelector('.delete-btn').addEventListener('click', () => deleteAttendanceRecord(row));
-        attendanceTbody.appendChild(row);
+        row.querySelector('.edit-btn').addEventListener('click', () => editKehadiranRecord(row));
+        row.querySelector('.delete-btn').addEventListener('click', () => deleteKehadiranRecord(row));
+        kehadiranTbody.appendChild(row);
     }
 
-    function updateAttendanceRecord(row, date, name, subject, status) {
-        row.children[0].textContent = date;
-        row.children[1].textContent = name;
-        row.children[2].textContent = subject;
-        row.children[3].textContent = status;
+    function updateKehadiranRecord(row, record) {
+        row.children[0].textContent = record.date;
+        row.children[1].textContent = record.name;
+        row.children[2].textContent = record.subject;
+        row.children[3].textContent = record.status;
+
+        // Send the updated record to the backend
+        fetch(API_URL, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(record)
+        }).catch(error => console.error('Error updating kehadiran data:', error));
     }
 
-    function editAttendanceRecord(row) {
+    function editKehadiranRecord(row) {
         const date = row.children[0].textContent;
         const name = row.children[1].textContent;
         const subject = row.children[2].textContent;
@@ -73,14 +96,23 @@ document.addEventListener('DOMContentLoaded', () => {
         editingRow = row;
     }
 
-    function deleteAttendanceRecord(row) {
+    function deleteKehadiranRecord(row) {
+        const date = row.children[0].textContent;
+        const name = row.children[1].textContent;
+        const subject = row.children[2].textContent;
+
+        // Send the delete request to the backend
+        fetch(`${API_URL}?date=${date}&name=${name}&subject=${subject}`, {
+            method: 'DELETE',
+        }).catch(error => console.error('Error deleting kehadiran data:', error));
+
         row.remove();
         updateSummary();
     }
 
     function updateSummary() {
         const summary = {};
-        Array.from(attendanceTbody.children).forEach(row => {
+        Array.from(kehadiranTbody.children).forEach(row => {
             const date = row.children[0].textContent;
             const name = row.children[1].textContent;
             const subject = row.children[2].textContent;
@@ -115,8 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
                             <button class="delete-btn py-1 px-3 bg-red-500 text-white rounded">Delete</button>
                         </td>
                     `;
-                    summaryRow.querySelector('.edit-btn').addEventListener('click', () => editAttendanceRecord(summaryRow));
-                    summaryRow.querySelector('.delete-btn').addEventListener('click', () => deleteAttendanceRecord(summaryRow));
+                    summaryRow.querySelector('.edit-btn').addEventListener('click', () => editKehadiranRecord(summaryRow));
+                    summaryRow.querySelector('.delete-btn').addEventListener('click', () => deleteKehadiranRecord(summaryRow));
                     summaryTbody.appendChild(summaryRow);
                 }
             }
