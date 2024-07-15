@@ -57,101 +57,78 @@ document.addEventListener('DOMContentLoaded', () => {
             <td class="py-2 px-4 border">${subject}</td>
             <td class="py-2 px-4 border">${status}</td>
             <td class="py-2 px-4 border">
-                <button class="edit-btn py-1 px-3 bg-yellow-500 text-white rounded mr-2">Edit</button>
-                <button class="delete-btn py-1 px-3 bg-red-500 text-white rounded">Delete</button>
+                <button class="bg-blue-900 text-white px-4 py-1 rounded edit-btn mr-2">Edit</button>
+                <button class="bg-red-500 text-white px-4 py-1 rounded delete-btn">Delete</button>
             </td>
         `;
-        row.querySelector('.edit-btn').addEventListener('click', () => editKehadiranRecord(row));
-        row.querySelector('.delete-btn').addEventListener('click', () => deleteKehadiranRecord(row));
         kehadiranTbody.appendChild(row);
-    }
 
-    function updateKehadiranRecord(row, record) {
-        row.children[0].textContent = record.date;
-        row.children[1].textContent = record.name;
-        row.children[2].textContent = record.subject;
-        row.children[3].textContent = record.status;
+        const editBtn = row.querySelector('.edit-btn');
+        const deleteBtn = row.querySelector('.delete-btn');
 
-        // Send the updated record to the backend
-        fetch(API_URL, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(record)
-        }).catch(error => console.error('Error updating kehadiran data:', error));
+        editBtn.addEventListener('click', () => editKehadiranRecord(row));
+        deleteBtn.addEventListener('click', () => deleteKehadiranRecord(row));
     }
 
     function editKehadiranRecord(row) {
-        const date = row.children[0].textContent;
-        const name = row.children[1].textContent;
-        const subject = row.children[2].textContent;
-        const status = row.children[3].textContent;
+        const [date, name, subject, status] = row.children;
 
-        document.getElementById('date').value = date;
-        document.getElementById('name').value = name;
-        document.getElementById('subject').value = subject;
-        document.getElementById('status').value = status;
+        document.getElementById('date').value = date.textContent;
+        document.getElementById('name').value = name.textContent;
+        document.getElementById('subject').value = subject.textContent;
+        document.getElementById('status').value = status.textContent;
 
         editingRow = row;
     }
 
-    function deleteKehadiranRecord(row) {
-        const date = row.children[0].textContent;
-        const name = row.children[1].textContent;
-        const subject = row.children[2].textContent;
+    function updateKehadiranRecord(row, record) {
+        const [date, name, subject, status] = row.children;
 
-        // Send the delete request to the backend
-        fetch(`${API_URL}?date=${date}&name=${name}&subject=${subject}`, {
-            method: 'DELETE',
-        }).catch(error => console.error('Error deleting kehadiran data:', error));
-
-        row.remove();
-        updateSummary();
+        date.textContent = record.date;
+        name.textContent = record.name;
+        subject.textContent = record.subject;
+        status.textContent = record.status;
     }
 
+    function deleteKehadiranRecord(row) {
+        const index = Array.from(kehadiranTbody.children).indexOf(row);
+        row.remove();
+        
+        // Send delete request to backend here
+        fetch(`${API_URL}/${index}`, {
+            method: 'DELETE'
+        }).catch(error => console.error('Error deleting kehadiran record:', error));
+    
+        updateSummary();
+    }
+    
+
     function updateSummary() {
-        const summary = {};
-        Array.from(kehadiranTbody.children).forEach(row => {
+        const summaryData = {};
+
+        kehadiranTbody.querySelectorAll('tr').forEach(row => {
             const date = row.children[0].textContent;
-            const name = row.children[1].textContent;
-            const subject = row.children[2].textContent;
             const status = row.children[3].textContent;
 
-            if (!summary[date]) {
-                summary[date] = {};
+            if (!summaryData[date]) {
+                summaryData[date] = { hadir: 0, telat: 0, alpa: 0, izin: 0, sakit: 0 };
             }
-            if (!summary[date][name]) {
-                summary[date][name] = {};
-            }
-            if (!summary[date][name][subject]) {
-                summary[date][name][subject] = { hadir: 0, telat: 0, alpa: 0, izin: 0, sakit: 0 };
-            }
-            summary[date][name][subject][status.toLowerCase()]++;
+            summaryData[date][status]++;
         });
 
         summaryTbody.innerHTML = '';
-        for (const date in summary) {
-            for (const name in summary[date]) {
-                for (const subject in summary[date][name]) {
-                    const summaryRow = document.createElement('tr');
-                    summaryRow.innerHTML = `
-                        <td class="py-2 px-4 border">${date}</td>
-                        <td class="py-2 px-4 border">${name}</td>
-                        <td class="py-2 px-4 border">${subject}</td>
-                        <td class="py-2 px-4 border">
-                            Hadir: ${summary[date][name][subject].hadir}, Terlambat: ${summary[date][name][subject].telat}, Alpa: ${summary[date][name][subject].alpa}, Izin: ${summary[date][name][subject].izin}, Sakit: ${summary[date][name][subject].sakit}
-                        </td>
-                        <td class="py-2 px-4 border">
-                            <button class="edit-btn py-1 px-3 bg-yellow-500 text-white rounded mr-2">Edit</button>
-                            <button class="delete-btn py-1 px-3 bg-red-500 text-white rounded">Delete</button>
-                        </td>
-                    `;
-                    summaryRow.querySelector('.edit-btn').addEventListener('click', () => editKehadiranRecord(summaryRow));
-                    summaryRow.querySelector('.delete-btn').addEventListener('click', () => deleteKehadiranRecord(summaryRow));
-                    summaryTbody.appendChild(summaryRow);
-                }
-            }
-        }
+
+        Object.keys(summaryData).forEach(date => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td class="py-2 px-4 border">${date}</td>
+                <td class="py-2 px-4 border">${summaryData[date].hadir}</td>
+                <td class="py-2 px-4 border">${summaryData[date].telat}</td>
+                <td class="py-2 px-4 border">${summaryData[date].alpa}</td>
+                <td class="py-2 px-4 border">${summaryData[date].izin}</td>
+                <td class="py-2 px-4 border">${summaryData[date].sakit}</td>
+            `;
+            summaryTbody.appendChild(row);
+        });
     }
 });
