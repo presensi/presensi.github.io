@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const siswaForm = document.getElementById('siswaForm');
     const siswaTbody = document.getElementById('siswaTbody');
-    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
+    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/siswa';
     let editingRow = null;
 
     siswaForm.addEventListener('submit', (e) => {
