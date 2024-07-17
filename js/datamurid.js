@@ -31,20 +31,25 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(data => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${siswa.nama}</td>
-                <td>${siswa.kelas}</td>
-                <td>${siswa.umur}</td>
-                <td>
-                    <button class="edit-btn btn btn-warning btn-sm">Edit</button>
-                    <button class="delete-btn btn btn-danger btn-sm">Delete</button>
-                </td>
-            `;
-            row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
-            row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
-            siswaTbody.appendChild(row);
-        });
+            if (data.success) {  // Pastikan ada properti 'success' dalam respons API
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${siswa.nama}</td>
+                    <td>${siswa.kelas}</td>
+                    <td>${siswa.umur}</td>
+                    <td>
+                        <button class="edit-btn btn btn-warning btn-sm">Edit</button>
+                        <button class="delete-btn btn btn-danger btn-sm">Delete</button>
+                    </td>
+                `;
+                row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
+                row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
+                siswaTbody.appendChild(row);
+            } else {
+                console.error('Failed to add siswa', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     function updateSiswaRecord(siswa) {
@@ -55,10 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(response => response.json())
         .then(data => {
-            editingRow.children[0].textContent = siswa.nama;
-            editingRow.children[1].textContent = siswa.kelas;
-            editingRow.children[2].textContent = siswa.umur;
-        });
+            if (data.success) {
+                editingRow.children[0].textContent = siswa.nama;
+                editingRow.children[1].textContent = siswa.kelas;
+                editingRow.children[2].textContent = siswa.umur;
+            } else {
+                console.error('Failed to update siswa', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     function editSiswaRecord(row) {
@@ -83,7 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ nama })
         })
         .then(response => response.json())
-        .then(data => row.remove());
+        .then(data => {
+            if (data.success) {
+                row.remove();
+            } else {
+                console.error('Failed to delete siswa', data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     document.getElementById('updateBtn').addEventListener('click', (e) => {
@@ -107,22 +124,27 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch(API_URL)
             .then(response => response.json())
             .then(data => {
-                data.forEach(siswa => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${siswa.nama}</td>
-                        <td>${siswa.kelas}</td>
-                        <td>${siswa.umur}</td>
-                        <td>
-                            <button class="edit-btn btn btn-warning btn-sm">Edit</button>
-                            <button class="delete-btn btn btn-danger btn-sm">Delete</button>
-                        </td>
-                    `;
-                    row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
-                    row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
-                    siswaTbody.appendChild(row);
-                });
-            });
+                if (data.success) {
+                    data.siswa.forEach(siswa => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${siswa.nama}</td>
+                            <td>${siswa.kelas}</td>
+                            <td>${siswa.umur}</td>
+                            <td>
+                                <button class="edit-btn btn btn-warning btn-sm">Edit</button>
+                                <button class="delete-btn btn btn-danger btn-sm">Delete</button>
+                            </td>
+                        `;
+                        row.querySelector('.edit-btn').addEventListener('click', () => editSiswaRecord(row));
+                        row.querySelector('.delete-btn').addEventListener('click', () => deleteSiswaRecord(row));
+                        siswaTbody.appendChild(row);
+                    });
+                } else {
+                    console.error('Failed to fetch siswa', data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     fetchAllSiswa();
