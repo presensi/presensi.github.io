@@ -47,19 +47,30 @@
             <form id="kehadiran-form" class="mb-6">
                 <div class="mb-4">
                     <label for="date" class="block mb-2">Tanggal:</label>
-                    <input type="date" id="date" class="w-full border px-4 py-2">
+                    <input type="date" id="date" class="w-full border px-4 py-2 border rounded">
                 </div>
                 <div class="mb-4">
                     <label for="name" class="block mb-2">Nama:</label>
-                    <input type="text" id="name" class="w-full border px-4 py-2">
+                    <input type="text" id="name" class="w-full border px-4 py-2 border rounded">
                 </div>
                 <div class="mb-4">
                     <label for="subject" class="block mb-2">Mata Pelajaran:</label>
-                    <input type="text" id="subject" class="w-full border px-4 py-2">
+                    <select id="subject" name="subject" class="w-full mb-4 p-2 border rounded">
+                        <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                        <option value="Bahasa Inggris">Bahasa Inggris</option>
+                        <option value="Bahasa Sunda">Bahasa Sunda</option>
+                        <option value="Biologi">Biologi</option>
+                        <option value="Fisika">Fisika</option>
+                        <option value="Kimia">Kimia</option>
+                        <option value="IPS">IPS</option>
+                        <option value="Matematika">Matematika</option>
+                        <option value="Pendidikan Agama Islam">Pendidikan Agama Islam</option>
+                        <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>                    
+                    </select>
                 </div>
                 <div class="mb-4">
                     <label for="status" class="block mb-2">Status Kehadiran:</label>
-                    <select id="status" class="w-full border px-4 py-2">
+                    <select id="status" class="w-full border px-4 py-2 border rounded">
                         <option value="Hadir">Hadir</option>
                         <option value="Terlambat">Terlambat</option>
                         <option value="Alpa">Alpa</option>
@@ -88,6 +99,6 @@
     </div>
         <!-- Main Content -- End -->
 
-    <script src="script.js"></script>
+    <script src="/js/dashboard-presensi.js"></script>
 </body>
 </html>
