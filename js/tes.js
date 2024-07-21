@@ -6,11 +6,11 @@ document.addEventListener('DOMContentLoaded', function() {
             data.forEach(presensi => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${presensi.Lokasi.Nama}</td>
-                    <td class="long-lat-column">${presensi.Lokasi.Batas.coordinates[0]}</td>
-                    <td class="long-lat-column">${presensi.Lokasi.Batas.coordinates[1]}</td>
-                    <td>${presensi.PhoneNumber}</td>
-                    <td>${new Date(presensi.CreatedAt).toLocaleString()}</td>
+                    <td class="py-2 px-4 border">${presensi.Lokasi.Nama}</td>
+                    <td class="py-2 px-4 border long-lat-column">${presensi.Lokasi.Batas.coordinates[0]}</td>
+                    <td class="py-2 px-4 border long-lat-column">${presensi.Lokasi.Batas.coordinates[1]}</td>
+                    <td class="py-2 px-4 border">${presensi.PhoneNumber}</td>
+                    <td class="py-2 px-4 border">${new Date(presensi.CreatedAt).toLocaleString()}</td>
                 `;
                 tbody.appendChild(tr);
             });
