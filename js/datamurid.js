@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     const siswaForm = document.getElementById('siswaForm');
     const siswaTbody = document.getElementById('siswaTbody');
+    const submitBtn = document.getElementById('submitBtn');
+    const updateBtn = document.getElementById('updateBtn');
     const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/siswa';
     
     let editingRow = null;
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const phonenumber = document.getElementById('phonenumber').value;
 
         if (nama && kelas && umur && phonenumber) {
-            const siswa = { nama, kelas, umur: parseInt(umur), phonenumber};
+            const siswa = { nama, kelas, umur: parseInt(umur), phonenumber };
             if (editingRow) {
                 updateSiswaRecord(siswa);
                 editingRow = null;
@@ -72,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 editingRow.children[1].textContent = siswa.kelas;
                 editingRow.children[2].textContent = siswa.umur;
                 editingRow.children[3].textContent = siswa.phonenumber;
+                resetForm();
             } else {
                 console.error('Failed to update siswa', data.message);
             }
@@ -91,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('phonenumber').value = phonenumber;
 
         editingRow = row;
-        document.getElementById('updateBtn').style.display = 'block';
-        document.querySelector('button[type="submit"]').style.display = 'none';
+        updateBtn.style.display = 'block';
+        submitBtn.style.display = 'none';
     }
 
     function deleteSiswaRecord(row) {
@@ -115,21 +118,21 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => console.error('Error:', error));
     }
 
-    document.getElementById('updateBtn').addEventListener('click', (e) => {
+    updateBtn.addEventListener('click', (e) => {
         e.preventDefault();
         
         const nama = document.getElementById('nama').value;
         const kelas = document.getElementById('kelas').value;
         const umur = document.getElementById('umur').value;
-        document.getElementById('phonenumber').value = phonenumber;
+        const phonenumber = document.getElementById('phonenumber').value;
 
         if (editingRow) {
-            updateSiswaRecord({ nama, kelas, umur: parseInt(umur), phonenumber});
+            updateSiswaRecord({ nama, kelas, umur: parseInt(umur), phonenumber });
             editingRow = null;
         }
 
-        document.getElementById('updateBtn').style.display = 'none';
-        document.querySelector('button[type="submit"]').style.display = 'block';
+        updateBtn.style.display = 'none';
+        submitBtn.style.display = 'block';
         siswaForm.reset();
     });
 
@@ -160,6 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             })
             .catch(error => console.error('Error:', error));
+    }
+
+    function resetForm() {
+        siswaForm.reset();
+        submitBtn.style.display = 'block';
+        updateBtn.style.display = 'none';
+        editingRow = null;
     }
 
     fetchAllSiswa();
