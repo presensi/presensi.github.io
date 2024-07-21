@@ -7,6 +7,15 @@
     <title>Data Presensi</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .long-lat-column {
+            display: table-cell;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="flex">
@@ -29,8 +38,8 @@
             <thead>
                 <tr>
                     <th class="py-2 px-4 border">Nama</th>
-                    <th class="py-2 px-4 border">Longitude</th>
-                    <th class="py-2 px-4 border">Latitude</th>
+                    <th class="long-lat-column py-2 px-4 border">Longitude</th>
+                    <th class="long-lat-column py-2 px-4 border">Latitude</th>
                     <th class="py-2 px-4 border">Lokasi</th>
                     <th class="py-2 px-4 border">Waktu</th>
                 </tr>
