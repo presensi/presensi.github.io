@@ -1,0 +1,7 @@
+.long-lat-column {
+    display: table-cell;
+}
+
+.hide {
+    display: none;
+}
