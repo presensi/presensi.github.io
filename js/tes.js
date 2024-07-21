@@ -22,12 +22,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const longLatColumns = document.querySelectorAll('.long-lat-column');
         longLatColumns.forEach(column => {
             if (column.style.display === 'none') {
-                column.style.display = '';
-                toggleButton.textContent = 'Hide Longitude and Latitude';
+                column.style.display = 'table-cell';
             } else {
                 column.style.display = 'none';
-                toggleButton.textContent = 'Show Longitude and Latitude';
             }
         });
+
+        // Update button text
+        if (toggleButton.textContent.includes('Show')) {
+            toggleButton.textContent = 'Hide Longitude and Latitude';
+        } else {
+            toggleButton.textContent = 'Show Longitude and Latitude';
+        }
     });
 });
