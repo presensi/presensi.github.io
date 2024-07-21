@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 tr.innerHTML = `
                     <td class="py-2 px-4 border">${presensi.Lokasi.Nama}</td>
                     <td class="py-2 px-4 border long-lat-column">${presensi.Lokasi.Batas.coordinates[0]}</td>
-                    <td class="py-2 px-4 border long-lat-column">${presensi.Lokasi.Batas.coordinates[1]}</td>
                     <td class="py-2 px-4 border">${presensi.PhoneNumber}</td>
                     <td class="py-2 px-4 border">${new Date(presensi.CreatedAt).toLocaleString()}</td>
                 `;
