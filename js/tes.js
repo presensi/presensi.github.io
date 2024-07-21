@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('/data/presensi')
+    fetch('https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/presensi')
         .then(response => response.json())
         .then(data => {
             const tbody = document.querySelector('#presensi-table tbody');
