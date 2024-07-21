@@ -7,6 +7,11 @@
     <title>Data Presensi</title>
     <link rel="stylesheet" href="/css/bootstrap.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .long-lat-column {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="flex">
@@ -26,7 +31,7 @@
     <div class="flex-1 p-6">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-semibold">Data Presensi</h3>
-            <button id="toggle-long-lat" class="px-4 py-2 bg-blue-500 text-white rounded">Hide Longitude and Latitude</button>
+            <button id="toggle-long-lat" class="px-4 py-2 bg-blue-500 text-white rounded">Show Longitude and Latitude</button>
         </div>
         <div id="presensi-table" class="bg-white p-6 rounded shadow mb-6">
             <table class="min-w-full bg-white border">
