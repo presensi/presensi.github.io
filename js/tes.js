@@ -30,9 +30,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update button text
         if (toggleButton.textContent.includes('Show')) {
-            toggleButton.textContent = 'Show Longitude and Latitude';
-        } else {
             toggleButton.textContent = 'Hide Longitude and Latitude';
+        } else {
+            toggleButton.textContent = 'Show Longitude and Latitude';
         }
     });
 });
