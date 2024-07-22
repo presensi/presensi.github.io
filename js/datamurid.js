@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const siswa = { nama, kelas, umur: parseInt(umur), phonenumber };
             if (editingRow) {
                 updateSiswaRecord(siswa);
-                editingRow = null;
             } else {
                 addSiswaRecord(siswa);
             }
             siswaForm.reset();
+            resetForm();
         }
     });
 
@@ -60,20 +60,35 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateSiswaRecord(siswa) {
+        if (!siswa || !siswa.nama || !siswa.kelas || !siswa.umur || !siswa.phonenumber) {
+            console.error('Data Siswa Invalid:', siswa);
+            return;
+        }
+
         console.log('Updating siswa:', siswa);
         fetch(API_URL, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(siswa)
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(error => {
+                    throw new Error(error.message || 'Failed to update siswa');
+                });
+            }
+            return response.json();
+        })
         .then(data => {
             console.log('Response from update:', data);
             if (data.message === 'Data siswa berhasil diperbarui') {
-                editingRow.children[0].textContent = siswa.nama;
-                editingRow.children[1].textContent = siswa.kelas;
-                editingRow.children[2].textContent = siswa.umur;
-                editingRow.children[3].textContent = siswa.phonenumber;
+                if (editingRow) {
+                    editingRow.children[0].textContent = siswa.nama;
+                    editingRow.children[1].textContent = siswa.kelas;
+                    editingRow.children[2].textContent = siswa.umur;
+                    editingRow.children[3].textContent = siswa.phonenumber;
+                    editingRow = null;
+                }
                 resetForm();
             } else {
                 console.error('Failed to update siswa', data.message);
@@ -128,12 +143,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (editingRow) {
             updateSiswaRecord({ nama, kelas, umur: parseInt(umur), phonenumber });
-            editingRow = null;
         }
 
-        updateBtn.style.display = 'none';
-        submitBtn.style.display = 'block';
-        siswaForm.reset();
+        resetForm();
     });
 
     function fetchAllSiswa() {
@@ -166,9 +178,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function resetForm() {
-        siswaForm.reset();
-        submitBtn.style.display = 'block';
+        document.getElementById('nama').value = '';
+        document.getElementById('kelas').value = '';
+        document.getElementById('umur').value = '';
+        document.getElementById('phonenumber').value = '';
+    
         updateBtn.style.display = 'none';
+        submitBtn.style.display = 'block';
         editingRow = null;
     }
 
