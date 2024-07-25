@@ -1,10 +1,8 @@
-// presensimanual.js
-
 $(document).ready(function() {
     // Fungsi untuk mendapatkan semua catatan kehadiran dan menampilkannya di tabel
     function fetchKehadiran() {
         $.ajax({
-            url: '/api/kehadiran',
+            url: 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/kehadiran',
             method: 'GET',
             success: function(response) {
                 $('#kehadiran-tbody').empty();
