@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL ='https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
+    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
     const form = document.getElementById('kehadiran-form');
     const kehadiranTbody = document.getElementById('kehadiran-tbody');
     const summaryTbody = document.getElementById('summary-tbody');
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (editingRow) {
             // Update record
             const recordId = editingRow.dataset.id;
-            kehadiranRecord.id = recordId;
+            kehadiranRecord._id = recordId;
             fetch(`${API_URL}/${recordId}`, {
                 method: 'PUT',
                 headers: {
@@ -62,9 +62,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function addKehadiranRecord({ id, date, name, subject, status }) {
+    function addKehadiranRecord({ _id, date, name, subject, status }) {
         const row = document.createElement('tr');
-        row.dataset.id = id;
+        row.dataset.id = _id;
         row.innerHTML = `
             <td class="py-2 px-4 border">${date}</td>
             <td class="py-2 px-4 border">${name}</td>
@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         row.querySelector('.delete-button').addEventListener('click', () => {
-            fetch(`${API_URL}/${id}`, {
+            fetch(`${API_URL}/${_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         row.querySelector('.delete-button').addEventListener('click', () => {
-            fetch(`${API_URL}/${record.id}`, {
+            fetch(`${API_URL}/${record._id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -142,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
         rows.forEach(row => {
             const cells = row.querySelectorAll('td');
             const date = cells[0].textContent.trim();
-            const name = cells[1].textContent.trim();
             const subject = cells[2].textContent.trim();
             const status = cells[3].textContent.trim();
 
