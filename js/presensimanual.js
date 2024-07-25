@@ -1,57 +1,70 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const kehadiranForm = document.getElementById('kehadiran-form');
+    const API_URL ='https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
+    const form = document.getElementById('kehadiran-form');
     const kehadiranTbody = document.getElementById('kehadiran-tbody');
     const summaryTbody = document.getElementById('summary-tbody');
-    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
-
     let editingRow = null;
 
-    // Fetch kehadiran data dari backend dan untuk ditampilkan
+    // Fetch initial data
     fetch(API_URL)
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Tambahkan log untuk memeriksa data
-            data.forEach(record => {
-                addKehadiranRecord(record.date, record.name, record.subject, record.status);
-            });
+            data.forEach(record => addKehadiranRecord(record));
             updateSummary();
         })
         .catch(error => console.error('Error fetching kehadiran data:', error));
 
-    kehadiranForm.addEventListener('submit', (e) => {
-        e.preventDefault();
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
 
         const date = document.getElementById('date').value;
         const name = document.getElementById('name').value;
         const subject = document.getElementById('subject').value;
         const status = document.getElementById('status').value;
 
-        if (date && name && subject && status) {
-            const record = { date, name, subject, status };
+        const kehadiranRecord = { date, name, subject, status };
 
-            if (editingRow) {
-                updateKehadiranRecord(editingRow, record);
+        if (editingRow) {
+            // Update record
+            const recordId = editingRow.dataset.id;
+            kehadiranRecord.id = recordId;
+            fetch(`${API_URL}/${recordId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(kehadiranRecord)
+            })
+            .then(response => response.json())
+            .then(updatedRecord => {
+                updateKehadiranRecord(editingRow, updatedRecord);
                 editingRow = null;
-            } else {
-                addKehadiranRecord(date, name, subject, status);
-            }
-
-            // Send the new record to the backend
+                form.reset();
+                updateSummary();
+            })
+            .catch(error => console.error('Error updating kehadiran record:', error));
+        } else {
+            // Create new record
             fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(record)
-            }).catch(error => console.error('Error sending kehadiran data:', error));
-
-            updateSummary();
-            kehadiranForm.reset();
+                body: JSON.stringify(kehadiranRecord)
+            })
+            .then(response => response.json())
+            .then(newRecord => {
+                addKehadiranRecord(newRecord);
+                form.reset();
+                updateSummary();
+            })
+            .catch(error => console.error('Error creating kehadiran record:', error));
         }
     });
 
-    function addKehadiranRecord(date, name, subject, status) {
+    function addKehadiranRecord({ id, date, name, subject, status }) {
         const row = document.createElement('tr');
+        row.dataset.id = id;
         row.innerHTML = `
             <td class="py-2 px-4 border">${date}</td>
             <td class="py-2 px-4 border">${name}</td>
@@ -73,9 +86,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         row.querySelector('.delete-button').addEventListener('click', () => {
-            row.remove();
-            deleteKehadiranRecord({ date, name, subject, status });
-            updateSummary();
+            fetch(`${API_URL}/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                row.remove();
+                updateSummary();
+            })
+            .catch(error => console.error('Error deleting kehadiran record:', error));
         });
     }
 
@@ -100,20 +121,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         row.querySelector('.delete-button').addEventListener('click', () => {
-            row.remove();
-            deleteKehadiranRecord(record);
-            updateSummary();
+            fetch(`${API_URL}/${record.id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(() => {
+                row.remove();
+                updateSummary();
+            })
+            .catch(error => console.error('Error deleting kehadiran record:', error));
         });
-    }
-
-    function deleteKehadiranRecord(record) {
-        fetch(`${API_URL}/${record.id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(record)
-        }).catch(error => console.error('Error deleting kehadiran data:', error));
     }
 
     function updateSummary() {
@@ -132,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (!summary[date][subject]) {
-                summary[date][subject] = { hadir: 0, telat: 0, alpa: 0, izin: 0, sakit: 0 };
+                summary[date][subject] = { hadir: 0, terlambat: 0, alpa: 0, izin: 0, sakit: 0 };
             }
 
             summary[date][subject][status]++;
@@ -146,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.innerHTML = `
                     <td class="py-2 px-4 border">${date}</td>
                     <td class="py-2 px-4 border">${subject}</td>
-                    <td class="py-2 px-4 border">Hadir: ${summary[date][subject].hadir}, Terlambat: ${summary[date][subject].telat}, Alpa: ${summary[date][subject].alpa}, Izin: ${summary[date][subject].izin}, Sakit: ${summary[date][subject].sakit}</td>
+                    <td class="py-2 px-4 border">Hadir: ${summary[date][subject].hadir}, Terlambat: ${summary[date][subject].terlambat}, Alpa: ${summary[date][subject].alpa}, Izin: ${summary[date][subject].izin}, Sakit: ${summary[date][subject].sakit}</td>
                 `;
                 summaryTbody.appendChild(row);
             });
