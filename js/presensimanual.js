@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = 'https://asia-southeast2-kehadiran-423310.cloudfunctions.net/cekin/data/kehadiran';
+    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
     const kehadiranForm = document.getElementById('kehadiran-form');
     const kehadiranTbody = document.getElementById('kehadiran-tbody');
     const submitBtn = document.getElementById('submitBtn');
