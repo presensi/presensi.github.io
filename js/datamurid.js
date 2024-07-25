@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const nama = document.getElementById('nama').value;
         const kelas = document.getElementById('kelas').value;
-        const jenisKelamin = document.getElementById('jenisKelamin').value;
+        const jenisKelamin = document.getElementById('jeniskelamin').value;
         const phonenumber = document.getElementById('phonenumber').value;
 
         if (nama && kelas && jenisKelamin && phonenumber) {
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.getElementById('nama').value = nama;
         document.getElementById('kelas').value = kelas;
-        document.getElementById('jenisKelamin').value = jenisKelamin;
+        document.getElementById('jeniskelamin').value = jenisKelamin;
         document.getElementById('phonenumber').value = phonenumber;
 
         editingRow = row;
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const nama = document.getElementById('nama').value;
         const kelas = document.getElementById('kelas').value;
-        const jenisKelamin = document.getElementById('jenisKelamin').value;
+        const jenisKelamin = document.getElementById('jeniskelamin').value;
         const phonenumber = document.getElementById('phonenumber').value;
 
         if (editingRow) {
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetForm() {
         document.getElementById('nama').value = '';
         document.getElementById('kelas').value = '';
-        document.getElementById('jenisKelamin').value = '';
+        document.getElementById('jeniskelamin').value = '';
         document.getElementById('phonenumber').value = '';
     
         updateBtn.style.display = 'none';
