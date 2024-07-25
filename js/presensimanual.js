@@ -125,40 +125,41 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function updateSummary() {
-        summaryTbody.innerHTML = ''; // Clear previous summary
+    // function updateSummary() {
+    //     summaryTbody.innerHTML = ''; // Clear previous summary
 
-        const summary = {};
+    //     const summary = {};
 
-        kehadiranTbody.querySelectorAll('tr').forEach(row => {
-            const date = row.cells[0].textContent;
-            const name = row.cells[1].textContent;
-            const subject = row.cells[2].textContent;
-            const status = row.cells[3].textContent;
+    //     kehadiranTbody.querySelectorAll('tr').forEach(row => {
+    //         const date = row.cells[0].textContent;
+    //         const name = row.cells[1].textContent;
+    //         const subject = row.cells[2].textContent;
+    //         const status = row.cells[3].textContent;
 
-            if (!summary[date]) {
-                summary[date] = {};
-            }
+    //         if (!summary[date]) {
+    //             summary[date] = {};
+    //         }
 
-            if (!summary[date][name]) {
-                summary[date][name] = { subject, status };
-            } else {
-                summary[date][name] = { ...summary[date][name], subject, status };
-            }
-        });
+    //         if (!summary[date][name]) {
+    //             summary[date][name] = { subject, status };
+    //         } else {
+    //             summary[date][name] = { ...summary[date][name], subject, status };
+    //         }
+    //     });
 
-        Object.keys(summary).forEach(date => {
-            Object.keys(summary[date]).forEach(name => {
-                const record = summary[date][name];
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="py-2 px-4 border">${date}</td>
-                    <td class="py-2 px-4 border">${name}</td>
-                    <td class="py-2 px-4 border">${record.subject}</td>
-                    <td class="py-2 px-4 border">${record.status}</td>
-                `;
-                summaryTbody.appendChild(row);
-            });
-        });
+    //     Object.keys(summary).forEach(date => {
+    //         Object.keys(summary[date]).forEach(name => {
+    //             const record = summary[date][name];
+    //             const row = document.createElement('tr');
+    //             row.innerHTML = `
+    //                 <td class="py-2 px-4 border">${date}</td>
+    //                 <td class="py-2 px-4 border">${name}</td>
+    //                 <td class="py-2 px-4 border">${record.subject}</td>
+    //                 <td class="py-2 px-4 border">${record.status}</td>
+    //             `;
+    //             summaryTbody.appendChild(row);
+    //         });
+    //     });
     }
-});
+// }
+);
