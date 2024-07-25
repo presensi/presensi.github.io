@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/presensi')
         .then(response => response.json())
         .then(data => {
-            const tbody = document.querySelector('#kehadiran-tbody');
+            const tbody = document.querySelector('#presensi-tbody');
             data.forEach(presensi => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
