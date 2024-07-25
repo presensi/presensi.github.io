@@ -28,17 +28,18 @@
         
         <div id="home" class="bg-white p-6 rounded shadow mb-6">
             <h3 class="text-xl font-semibold mb-4">Rangkuman Kehadiran</h3>
-            <table class="w-full mt-8 border">
+            <table class="min-w-full bg-white border">
                 <thead>
                     <tr>
                         <th class="py-2 px-4 border">Tanggal</th>
                         <th class="py-2 px-4 border">Nama</th>
-                        <th class="py-2 px-4 border">Kehadiran</th>
-                        <th class="py-2 px-4 border">Actions</th>
+                        <th class="py-2 px-4 border">Mata Pelajaran</th>
+                        <th class="py-2 px-4 border">Status</th>
+                        <th class="py-2 px-4 border">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="summary-tbody">
-                    <!-- Summary records will be added here -->
+                    <!-- Summary rows will be dynamically added here -->
                 </tbody>
             </table>
         </div>
@@ -70,16 +71,16 @@
 
                 <label for="subject" class="block mb-2">Mata Pelajaran:</label>
                 <select id="subject" name="subject" class="w-full mb-4 p-2 border rounded">
+                    <option value="Matematika">Matematika</option>
+                    <option value="Pendidikan Agama Islam">Pendidikan Agama Islam</option>
+                    <option value="IPS">IPS</option>
+                    <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>
                     <option value="Bahasa Indonesia">Bahasa Indonesia</option>
                     <option value="Bahasa Inggris">Bahasa Inggris</option>
                     <option value="Bahasa Sunda">Bahasa Sunda</option>
-                    <option value="Biologi">Biologi</option>
                     <option value="Fisika">Fisika</option>
                     <option value="Kimia">Kimia</option>
-                    <option value="IPS">IPS</option>
-                    <option value="Matematika">Matematika</option>
-                    <option value="Pendidikan Agama Islam">Pendidikan Agama Islam</option>
-                    <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>                    
+                    <option value="Biologi">Biologi</option>
                 </select>
 
                 <label for="status" class="block mb-2">Status:</label>

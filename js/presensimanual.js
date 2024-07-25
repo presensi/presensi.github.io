@@ -122,60 +122,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 summary[date] = {};
             }
             if (!summary[date][name]) {
-                summary[date][name] = { hadir: 0, telat: 0, alpa: 0, izin: 0, sakit: 0, subjects: {} };
+                summary[date][name] = {};
             }
-            if (!summary[date][name].subjects[subject]) {
-                summary[date][name].subjects[subject] = { hadir: 0, telat: 0, alpa: 0, izin: 0, sakit: 0 };
+            if (!summary[date][name][subject]) {
+                summary[date][name][subject] = { hadir: 0, telat: 0, alpa: 0, izin: 0, sakit: 0 };
             }
-            summary[date][name].subjects[subject][status.toLowerCase()]++;
-            summary[date][name][status.toLowerCase()]++;
+            summary[date][name][subject][status.toLowerCase()]++;
         });
 
         summaryTbody.innerHTML = '';
         for (const date in summary) {
             for (const name in summary[date]) {
-                const summaryRow = document.createElement('tr');
-                summaryRow.innerHTML = `
-                    <td class="py-2 px-4 border">${date}</td>
-                    <td class="py-2 px-4 border">${name}</td>
-                    <td class="py-2 px-4 border">
-                        Hadir: ${summary[date][name].hadir}, 
-                        Terlambat: ${summary[date][name].telat}, 
-                        Alpa: ${summary[date][name].alpa}, 
-                        Izin: ${summary[date][name].izin}, 
-                        Sakit: ${summary[date][name].sakit}
-                        <button class="details-btn py-1 px-3 bg-blue-500 text-white rounded ml-2">Details</button>
-                    </td>
-                    <td class="py-2 px-4 border">
-                        <button class="edit-btn py-1 px-3 bg-yellow-500 text-white rounded mr-2">Edit</button>
-                        <button class="delete-btn py-1 px-3 bg-red-500 text-white rounded">Delete</button>
-                    </td>
-                `;
-
-                const detailsButton = summaryRow.querySelector('.details-btn');
-                const detailsDropdown = document.createElement('div');
-                detailsDropdown.style.display = 'none';
-                detailsDropdown.classList.add('details-dropdown', 'p-2', 'border', 'bg-gray-100');
-
-                for (const subject in summary[date][name].subjects) {
-                    const subjectDetails = document.createElement('div');
-                    subjectDetails.textContent = `${subject}: 
-                        Hadir: ${summary[date][name].subjects[subject].hadir}, 
-                        Terlambat: ${summary[date][name].subjects[subject].telat}, 
-                        Alpa: ${summary[date][name].subjects[subject].alpa}, 
-                        Izin: ${summary[date][name].subjects[subject].izin}, 
-                        Sakit: ${summary[date][name].subjects[subject].sakit}`;
-                    detailsDropdown.appendChild(subjectDetails);
+                for (const subject in summary[date][name]) {
+                    const summaryRow = document.createElement('tr');
+                    summaryRow.innerHTML = `
+                        <td class="py-2 px-4 border">${date}</td>
+                        <td class="py-2 px-4 border">${name}</td>
+                        <td class="py-2 px-4 border">${subject}</td>
+                        <td class="py-2 px-4 border">
+                            Hadir: ${summary[date][name][subject].hadir}, Terlambat: ${summary[date][name][subject].telat}, Alpa: ${summary[date][name][subject].alpa}, Izin: ${summary[date][name][subject].izin}, Sakit: ${summary[date][name][subject].sakit}
+                        </td>
+                        <td class="py-2 px-4 border">
+                            <button class="edit-btn py-1 px-3 bg-yellow-500 text-white rounded mr-2">Edit</button>
+                            <button class="delete-btn py-1 px-3 bg-red-500 text-white rounded">Delete</button>
+                        </td>
+                    `;
+                    summaryRow.querySelector('.edit-btn').addEventListener('click', () => editKehadiranRecord(summaryRow));
+                    summaryRow.querySelector('.delete-btn').addEventListener('click', () => deleteKehadiranRecord(summaryRow));
+                    summaryTbody.appendChild(summaryRow);
                 }
-
-                detailsButton.addEventListener('click', () => {
-                    detailsDropdown.style.display = detailsDropdown.style.display === 'none' ? 'block' : 'none';
-                });
-
-                summaryRow.querySelector('.edit-btn').addEventListener('click', () => editKehadiranRecord(summaryRow));
-                summaryRow.querySelector('.delete-btn').addEventListener('click', () => deleteKehadiranRecord(summaryRow));
-                summaryRow.appendChild(detailsDropdown);
-                summaryTbody.appendChild(summaryRow);
             }
         }
     }
