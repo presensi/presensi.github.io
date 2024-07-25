@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(API_URL)
         .then(response => response.json())
         .then(data => {
+            console.log(data); // Tambahkan log untuk memeriksa data
             data.forEach(record => {
                 addKehadiranRecord(record.date, record.name, record.subject, record.status);
             });
@@ -19,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     kehadiranForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        
+
         const date = document.getElementById('date').value;
         const name = document.getElementById('name').value;
         const subject = document.getElementById('subject').value;
