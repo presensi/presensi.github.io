@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const nama = document.getElementById('nama').value;
         const kelas = document.getElementById('kelas').value;
-        const umur = document.getElementById('umur').value;
+        const jenisKelamin = document.getElementById('jenisKelamin').value;
         const phonenumber = document.getElementById('phonenumber').value;
 
-        if (nama && kelas && umur && phonenumber) {
-            const siswa = { nama, kelas, umur: parseInt(umur), phonenumber };
+        if (nama && kelas && jenisKelamin && phonenumber) {
+            const siswa = { nama, kelas, jenisKelamin, phonenumber };
             if (editingRow) {
                 updateSiswaRecord(siswa);
             } else {
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 row.innerHTML = `
                     <td>${siswa.nama}</td>
                     <td>${siswa.kelas}</td>
-                    <td>${siswa.umur}</td>
+                    <td>${siswa.jenisKelamin}</td>
                     <td>${siswa.phonenumber}</td>
                     <td>
                         <button class="edit-btn btn btn-warning btn-sm">Edit</button>
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateSiswaRecord(siswa) {
-        if (!siswa || !siswa.nama || !siswa.kelas || !siswa.umur || !siswa.phonenumber) {
+        if (!siswa || !siswa.nama || !siswa.kelas || !siswa.jenisKelamin || !siswa.phonenumber) {
             console.error('Data Siswa Invalid:', siswa);
             return;
         }
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (editingRow) {
                     editingRow.children[0].textContent = siswa.nama;
                     editingRow.children[1].textContent = siswa.kelas;
-                    editingRow.children[2].textContent = siswa.umur;
+                    editingRow.children[2].textContent = siswa.jenisKelamin;
                     editingRow.children[3].textContent = siswa.phonenumber;
                     editingRow = null;
                 }
@@ -100,12 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function editSiswaRecord(row) {
         const nama = row.children[0].textContent;
         const kelas = row.children[1].textContent;
-        const umur = row.children[2].textContent;
+        const jenisKelamin = row.children[2].textContent;
         const phonenumber = row.children[3].textContent;
 
         document.getElementById('nama').value = nama;
         document.getElementById('kelas').value = kelas;
-        document.getElementById('umur').value = umur;
+        document.getElementById('jenisKelamin').value = jenisKelamin;
         document.getElementById('phonenumber').value = phonenumber;
 
         editingRow = row;
@@ -138,11 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const nama = document.getElementById('nama').value;
         const kelas = document.getElementById('kelas').value;
-        const umur = document.getElementById('umur').value;
+        const jenisKelamin = document.getElementById('jenisKelamin').value;
         const phonenumber = document.getElementById('phonenumber').value;
 
         if (editingRow) {
-            updateSiswaRecord({ nama, kelas, umur: parseInt(umur), phonenumber });
+            updateSiswaRecord({ nama, kelas, jenisKelamin, phonenumber });
         }
 
         resetForm();
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         row.innerHTML = `
                             <td>${siswa.nama}</td>
                             <td>${siswa.kelas}</td>
-                            <td>${siswa.umur}</td>
+                            <td>${siswa.jenisKelamin}</td>
                             <td>${siswa.phonenumber}</td>
                             <td>
                                 <button class="edit-btn btn btn-warning btn-sm">Edit</button>
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function resetForm() {
         document.getElementById('nama').value = '';
         document.getElementById('kelas').value = '';
-        document.getElementById('umur').value = '';
+        document.getElementById('jenisKelamin').value = '';
         document.getElementById('phonenumber').value = '';
     
         updateBtn.style.display = 'none';
