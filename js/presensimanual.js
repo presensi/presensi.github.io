@@ -12,10 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     data.forEach(kehadiran => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
-                            <td class="py-2 px-4 border">${kehadiran.Tanggal}</td>
-                            <td class="py-2 px-4 border">${kehadiran.Nama}</td>
-                            <td class="py-2 px-4 border">${kehadiran.MataPelajaran}</td>
-                            <td class="py-2 px-4 border">${kehadiran.Status}</td>
+                            <td class="py-2 px-4 border">${kehadiran.name}</td>
+                            <td class="py-2 px-4 border">${kehadiran.date}</td>
+                            <td class="py-2 px-4 border">${kehadiran.subject}</td>
+                            <td class="py-2 px-4 border">${kehadiran.status}</td>
                             <td class="py-2 px-4 border">
                                 <button class="edit-btn btn btn-warning btn-sm">Edit</button>
                                 <button class="delete-btn btn btn-danger btn-sm">Delete</button>
@@ -45,10 +45,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.message === 'Data kehadiran berhasil disimpan') {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="py-2 px-4 border">${kehadiran.Tanggal}</td>
-                    <td class="py-2 px-4 border">${kehadiran.Nama}</td>
-                    <td class="py-2 px-4 border">${kehadiran.MataPelajaran}</td>
-                    <td class="py-2 px-4 border">${kehadiran.Status}</td>
+                            <td class="py-2 px-4 border">${kehadiran.name}</td>
+                            <td class="py-2 px-4 border">${kehadiran.date}</td>
+                            <td class="py-2 px-4 border">${kehadiran.subject}</td>
+                            <td class="py-2 px-4 border">${kehadiran.status}</td>
                     <td class="py-2 px-4 border">
                         <button class="edit-btn btn btn-warning btn-sm">Edit</button>
                         <button class="delete-btn btn btn-danger btn-sm">Delete</button>
@@ -88,10 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Response from update:', data);
             if (data.message === 'Data kehadiran berhasil diperbarui') {
                 if (editingRow) {
-                    editingRow.children[0].textContent = kehadiran.Tanggal;
-                    editingRow.children[1].textContent = kehadiran.Nama;
-                    editingRow.children[2].textContent = kehadiran.MataPelajaran;
-                    editingRow.children[3].textContent = kehadiran.Status;
+                    editingRow.children[0].textContent = kehadiran.name;
+                    editingRow.children[1].textContent = kehadiran.date;
+                    editingRow.children[2].textContent = kehadiran.subject;
+                    editingRow.children[3].textContent = kehadiran.status;
                     editingRow = null;
                 }
                 resetForm();
@@ -103,12 +103,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function deletekehadiranRecord(row) {
-        const nama = row.children[1].textContent;
-        console.log('Deleting kehadiran:', nama);
+        const name = row.children[1].textContent;
+        console.log('Deleting kehadiran:', name);
         fetch(API_URL, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ Nama: nama })
+            body: JSON.stringify({ Name: name })
         })
         .then(response => response.json())
         .then(data => {
@@ -124,15 +124,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function editkehadiranRecord(row) {
         const kehadiran = {
-            Tanggal: row.children[0].textContent,
-            Nama: row.children[1].textContent,
-            MataPelajaran: row.children[2].textContent,
-            Status: row.children[3].textContent
+            name: row.children[1].textContent,
+            date: row.children[0].textContent,
+            subject: row.children[2].textContent,
+            status: row.children[3].textContent
         };
-        document.getElementById('tanggal').value = kehadiran.Tanggal;
-        document.getElementById('nama').value = kehadiran.Nama;
-        document.getElementById('matapelajaran').value = kehadiran.MataPelajaran;
-        document.getElementById('status').value = kehadiran.Status;
+        document.getElementById('name').value = kehadiran.name;
+        document.getElementById('date').value = kehadiran.date;
+        document.getElementById('subject').value = kehadiran.subject;
+        document.getElementById('status').value = kehadiran.status;
         editingRow = row;
     }
 
@@ -146,10 +146,10 @@ document.addEventListener('DOMContentLoaded', function() {
     kehadiranForm.addEventListener('submit', function(event) {
         event.preventDefault();
         const kehadiran = {
-            Tanggal: document.getElementById('tanggal').value,
-            Nama: document.getElementById('nama').value,
-            MataPelajaran: document.getElementById('matapelajaran').value,
-            Status: document.getElementById('status').value
+            tanggal: document.getElementById('tanggal').value,
+            name: document.getElementById('name').value,
+            subject: document.getElementById('subject').value,
+            status: document.getElementById('status').value
         };
         if (editingRow) {
             updatekehadiranRecord(kehadiran);
