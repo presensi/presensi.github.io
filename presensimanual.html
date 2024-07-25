@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Web Presensi</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex">
+    <!-- Navigation--Start-->
+    <div class="w-64 bg-blue-300 text-white min-h-screen p-6">
+        <h2 class="text-center text-xl font-bold mb-6">Admin Dashboard</h2>
+        <ul>
+            <li class="mb-4"><a href="dashboard-admin.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Beranda</a></li>
+            <li class="mb-4"><a href="datapresensi.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Kehadiran</a></li>
+            <li class="mb-4"><a href="presensimanual.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Kehadiran Manual</a></li>
+            <li class="mb-4"><a href="datamurid.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Data Murid</a></li>
+            <li class="mb-4"><a href="index.html" class="block py-2 px-4 bg-gray-700 rounded hover:bg-blue-900">Keluar</a></li>
+        </ul>
+    </div>
+    <!-- Navigation--End-->
+
+    <div class="flex-1 p-6 bg-blue-300">
+        <div class="bg-white p-6 rounded shadow mb-6">
+            <h2 class="text-2xl font-bold mb-4">Data Presensi Manual SMAIT Miftahul Khoir Bandung</h2>
+        </div>
+        
+        <div id="home" class="bg-white p-6 rounded shadow mb-6">
+            <h3 class="text-xl font-semibold mb-4">Rangkuman Kehadiran</h3>
+            <table class="w-full mt-8 border">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border">Tanggal</th>
+                        <th class="py-2 px-4 border">Nama</th>
+                        <th class="py-2 px-4 border">Kehadiran</th>
+                        <th class="py-2 px-4 border">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="summary-tbody">
+                    <!-- Summary records will be added here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div id="kehadiran" class="bg-white p-6 rounded shadow mb-6">
+            <h3 class="text-xl font-semibold mb-4">Catatan Kehadiran</h3>
+            <table class="min-w-full bg-white border">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border">Tanggal</th>
+                        <th class="py-2 px-4 border">Nama</th>
+                        <th class="py-2 px-4 border">Mata Pelajaran</th>
+                        <th class="py-2 px-4 border">Status</th>
+                        <th class="py-2 px-4 border">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody id="kehadiran-tbody">
+                    <!-- Kehadiran rows will be dynamically added here -->
+                </tbody>
+            </table>
+
+            <form id="kehadiran-form" class="mt-6">
+                <h3 class="text-xl font-semibold mb-4">Tambahkan Kehadiran Baru</h3>
+                <label for="date" class="block mb-2">Tanggal:</label>
+                <input type="date" id="date" name="date" class="w-full mb-4 p-2 border rounded">
+
+                <label for="name" class="block mb-2">Nama:</label>
+                <input type="text" id="name" name="name" class="w-full mb-4 p-2 border rounded">
+
+                <label for="subject" class="block mb-2">Mata Pelajaran:</label>
+                <select id="subject" name="subject" class="w-full mb-4 p-2 border rounded">
+                    <option value="Bahasa Indonesia">Bahasa Indonesia</option>
+                    <option value="Bahasa Inggris">Bahasa Inggris</option>
+                    <option value="Bahasa Sunda">Bahasa Sunda</option>
+                    <option value="Biologi">Biologi</option>
+                    <option value="Fisika">Fisika</option>
+                    <option value="Kimia">Kimia</option>
+                    <option value="IPS">IPS</option>
+                    <option value="Matematika">Matematika</option>
+                    <option value="Pendidikan Agama Islam">Pendidikan Agama Islam</option>
+                    <option value="Pendidikan Pancasila">Pendidikan Pancasila</option>                    
+                </select>
+
+                <label for="status" class="block mb-2">Status:</label>
+                <select id="status" name="status" class="w-full mb-4 p-2 border rounded">
+                    <option value="hadir">Hadir</option>
+                    <option value="telat">Terlambat</option>
+                    <option value="alpa">Alpa</option>
+                    <option value="izin">Izin</option>
+                    <option value="sakit">Sakit</option>
+                </select>
+
+                <button type="submit" class="py-2 px-4 bg-blue-900 text-white rounded hover:bg-blue-600">Tambahkan Catatan</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="/js/presensimanual.js"></script>
+</body>
+</html>
