@@ -1,75 +1,74 @@
 document.addEventListener('DOMContentLoaded', () => {
     const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
-    const form = document.getElementById('kehadiran-form');
+    const kehadiranForm = document.getElementById('kehadiran-form');
     const kehadiranTbody = document.getElementById('kehadiran-tbody');
     const summaryTbody = document.getElementById('summary-tbody');
     let editingRow = null;
 
-    // Fetch initial data
     fetch(API_URL)
         .then(response => response.json())
         .then(data => {
-            data.forEach(record => addKehadiranRecord(record));
+            data.forEach(record => {
+                addKehadiranRecord(record);
+            });
             updateSummary();
         })
-        .catch(error => console.error('Error fetching kehadiran data:', error));
+        .catch(error => console.error('Error fetching kehadiran records:', error));
 
-    form.addEventListener('submit', (event) => {
+    kehadiranForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const date = document.getElementById('date').value;
-        const name = document.getElementById('name').value;
-        const subject = document.getElementById('subject').value;
-        const status = document.getElementById('status').value;
-
-        const kehadiranRecord = { date, name, subject, status };
+        const formData = new FormData(kehadiranForm);
+        const record = {
+            date: formData.get('date'),
+            name: formData.get('name'),
+            subject: formData.get('subject'),
+            status: formData.get('status')
+        };
 
         if (editingRow) {
-            // Update record
             const recordId = editingRow.dataset.id;
-            kehadiranRecord._id = recordId;
             fetch(`${API_URL}/${recordId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(kehadiranRecord)
+                body: JSON.stringify(record)
             })
             .then(response => response.json())
             .then(updatedRecord => {
                 updateKehadiranRecord(editingRow, updatedRecord);
                 editingRow = null;
-                form.reset();
+                kehadiranForm.reset();
                 updateSummary();
             })
             .catch(error => console.error('Error updating kehadiran record:', error));
         } else {
-            // Create new record
             fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(kehadiranRecord)
+                body: JSON.stringify(record)
             })
             .then(response => response.json())
             .then(newRecord => {
                 addKehadiranRecord(newRecord);
-                form.reset();
+                kehadiranForm.reset();
                 updateSummary();
             })
-            .catch(error => console.error('Error creating kehadiran record:', error));
+            .catch(error => console.error('Error adding kehadiran record:', error));
         }
     });
 
-    function addKehadiranRecord({ _id, date, name, subject, status }) {
+    function addKehadiranRecord(record) {
         const row = document.createElement('tr');
-        row.dataset.id = _id;
+        row.dataset.id = record.id;
         row.innerHTML = `
-            <td class="py-2 px-4 border">${date}</td>
-            <td class="py-2 px-4 border">${name}</td>
-            <td class="py-2 px-4 border">${subject}</td>
-            <td class="py-2 px-4 border">${status}</td>
+            <td class="py-2 px-4 border">${record.date || 'undefined'}</td>
+            <td class="py-2 px-4 border">${record.name || 'undefined'}</td>
+            <td class="py-2 px-4 border">${record.subject || 'undefined'}</td>
+            <td class="py-2 px-4 border">${record.status || 'undefined'}</td>
             <td class="py-2 px-4 border">
                 <button class="edit-button py-1 px-2 bg-blue-900 text-white rounded hover:bg-blue-600">Edit</button>
                 <button class="delete-button py-1 px-2 bg-red-900 text-white rounded hover:bg-red-600">Delete</button>
@@ -80,10 +79,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateKehadiranRecord(row, { date, name, subject, status }) {
         row.innerHTML = `
-            <td class="py-2 px-4 border">${date}</td>
-            <td class="py-2 px-4 border">${name}</td>
-            <td class="py-2 px-4 border">${subject}</td>
-            <td class="py-2 px-4 border">${status}</td>
+            <td class="py-2 px-4 border">${date || 'undefined'}</td>
+            <td class="py-2 px-4 border">${name || 'undefined'}</td>
+            <td class="py-2 px-4 border">${subject || 'undefined'}</td>
+            <td class="py-2 px-4 border">${status || 'undefined'}</td>
             <td class="py-2 px-4 border">
                 <button class="edit-button py-1 px-2 bg-blue-900 text-white rounded hover:bg-blue-600">Edit</button>
                 <button class="delete-button py-1 px-2 bg-red-900 text-white rounded hover:bg-red-600">Delete</button>
@@ -98,10 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(`${API_URL}/${recordId}`)
                 .then(response => response.json())
                 .then(record => {
-                    document.getElementById('date').value = record.date;
-                    document.getElementById('name').value = record.name;
-                    document.getElementById('subject').value = record.subject;
-                    document.getElementById('status').value = record.status;
+                    document.getElementById('date').value = record.date || '';
+                    document.getElementById('name').value = record.name || '';
+                    document.getElementById('subject').value = record.subject || '';
+                    document.getElementById('status').value = record.status || '';
                 })
                 .catch(error => console.error('Error fetching kehadiran record:', error));
         } else if (event.target.classList.contains('delete-button')) {
