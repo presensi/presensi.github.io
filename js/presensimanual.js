@@ -1,49 +1,49 @@
 document.addEventListener('DOMContentLoaded', function() {
     const API_URL = 'https://asia-southeast2-kehadiran-423310.cloudfunctions.net/cekin/data/kehadiran';
-    const siswaTbody = document.getElementById('siswaTbody');
-    const siswaForm = document.getElementById('siswaForm');
+    const kehadiranTable = document.getElementById('kehadiran-tbody');
+    const form = document.getElementById('kehadiran-form');
     const submitBtn = document.getElementById('submitBtn');
     const updateBtn = document.getElementById('updateBtn');
 
-    let siswaList = [];
+    let kehadiranList = [];
     let editIndex = null;
 
     // Fetch data from API
     fetch(API_URL)
         .then(response => response.json())
         .then(data => {
-            siswaList = data;
-            displaySiswa();
+            kehadiranList = data;
+            displayKehadiran();
         })
         .catch(error => console.error('Error:', error));
 
-    // Display siswa data
-    function displaySiswa() {
-        siswaTbody.innerHTML = '';
-        siswaList.forEach((siswa, index) => {
+    // Display kehadiran data
+    function displayKehadiran() {
+        kehadiranTable.innerHTML = '';
+        kehadiranList.forEach((kehadiran, index) => {
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${siswa.nama}</td>
-                <td>${siswa.kelas}</td>
-                <td>${siswa.jeniskelamin}</td>
-                <td>${siswa.phonenumber}</td>
-                <td>
-                    <button class="btn btn-sm btn-info editBtn" data-index="${index}">Edit</button>
-                    <button class="btn btn-sm btn-danger deleteBtn" data-index="${index}">Delete</button>
+                <td class="py-2 px-4 border">${kehadiran.name}</td>
+                <td class="py-2 px-4 border">${kehadiran.date}</td>
+                <td class="py-2 px-4 border">${kehadiran.subject}</td>
+                <td class="py-2 px-4 border">${kehadiran.status}</td>
+                <td class="py-2 px-4 border">
+                    <button class="py-1 px-2 bg-green-500 text-white rounded editBtn" data-index="${index}">Edit</button>
+                    <button class="py-1 px-2 bg-red-500 text-white rounded deleteBtn" data-index="${index}">Delete</button>
                 </td>
             `;
-            siswaTbody.appendChild(row);
+            kehadiranTable.appendChild(row);
         });
 
         // Attach event listeners to edit buttons
         document.querySelectorAll('.editBtn').forEach(button => {
             button.addEventListener('click', function() {
                 editIndex = this.getAttribute('data-index');
-                const siswa = siswaList[editIndex];
-                siswaForm.nama.value = siswa.nama;
-                siswaForm.kelas.value = siswa.kelas;
-                siswaForm.jeniskelamin.value = siswa.jeniskelamin;
-                siswaForm.phonenumber.value = siswa.phonenumber;
+                const kehadiran = kehadiranList[editIndex];
+                form.name.value = kehadiran.name;
+                form.date.value = kehadiran.date;
+                form.subject.value = kehadiran.subject;
+                form.status.value = kehadiran.status;
 
                 submitBtn.style.display = 'none';
                 updateBtn.style.display = 'block';
@@ -54,36 +54,36 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.deleteBtn').forEach(button => {
             button.addEventListener('click', function() {
                 const index = this.getAttribute('data-index');
-                siswaList.splice(index, 1);
-                displaySiswa();
+                kehadiranList.splice(index, 1);
+                displayKehadiran();
             });
         });
     }
 
-    // Handle form submission for new siswa
-    siswaForm.addEventListener('submit', function(e) {
+    // Handle form submission for new kehadiran
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
-        const newSiswa = {
-            nama: siswaForm.nama.value,
-            kelas: siswaForm.kelas.value,
-            jeniskelamin: siswaForm.jeniskelamin.value,
-            phonenumber: siswaForm.phonenumber.value
+        const newKehadiran = {
+            name: form.name.value,
+            date: form.date.value,
+            subject: form.subject.value,
+            status: form.status.value
         };
-        siswaList.push(newSiswa);
-        displaySiswa();
-        siswaForm.reset();
+        kehadiranList.push(newKehadiran);
+        displayKehadiran();
+        form.reset();
     });
 
-    // Handle form submission for updating siswa
+    // Handle form submission for updating kehadiran
     updateBtn.addEventListener('click', function() {
-        siswaList[editIndex] = {
-            nama: siswaForm.nama.value,
-            kelas: siswaForm.kelas.value,
-            jeniskelamin: siswaForm.jeniskelamin.value,
-            phonenumber: siswaForm.phonenumber.value
+        kehadiranList[editIndex] = {
+            name: form.name.value,
+            date: form.date.value,
+            subject: form.subject.value,
+            status: form.status.value
         };
-        displaySiswa();
-        siswaForm.reset();
+        displayKehadiran();
+        form.reset();
         submitBtn.style.display = 'block';
         updateBtn.style.display = 'none';
     });
