@@ -1,13 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = 'https://asia-southeast2-presensi-423310.cloudfunctions.net/cekin/data/kehadiran';
+    const API_URL = '/cekin/data/kehadiran';
     const kehadiranForm = document.getElementById('kehadiran-form');
     const kehadiranTbody = document.getElementById('kehadiran-tbody');
     const summaryTbody = document.getElementById('summary-tbody');
     let editingRow = null;
 
+    // Fetch and display kehadiran records
     fetch(API_URL)
         .then(response => response.json())
         .then(data => {
+            console.log('Fetched data:', data); // Debugging statement
             data.forEach(record => {
                 addKehadiranRecord(record);
             });
@@ -15,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => console.error('Error fetching kehadiran records:', error));
 
+    // Handle form submission
     kehadiranForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
@@ -25,6 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
             subject: formData.get('subject'),
             status: formData.get('status')
         };
+
+        console.log('Form data:', record); // Debugging statement
 
         if (editingRow) {
             const recordId = editingRow.dataset.id;
@@ -37,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => response.json())
             .then(updatedRecord => {
+                console.log('Updated record:', updatedRecord); // Debugging statement
                 updateKehadiranRecord(editingRow, updatedRecord);
                 editingRow = null;
                 kehadiranForm.reset();
@@ -53,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             })
             .then(response => response.json())
             .then(newRecord => {
+                console.log('New record:', newRecord); // Debugging statement
                 addKehadiranRecord(newRecord);
                 kehadiranForm.reset();
                 updateSummary();
@@ -97,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fetch(`${API_URL}/${recordId}`)
                 .then(response => response.json())
                 .then(record => {
+                    console.log('Editing record:', record); // Debugging statement
                     document.getElementById('date').value = record.date || '';
                     document.getElementById('name').value = record.name || '';
                     document.getElementById('subject').value = record.subject || '';
